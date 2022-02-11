@@ -1,0 +1,2 @@
+
+sam local invoke "hremails"
