@@ -4,3 +4,4 @@ client_secret.json
 *.zip
 cronlogs/
 deploy.sh
+launch.json

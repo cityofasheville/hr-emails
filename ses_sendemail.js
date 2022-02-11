@@ -1,9 +1,9 @@
 const { SESClient, SendEmailCommand } = require('@aws-sdk/client-ses')
 const client = new SESClient({ region: 'us-east-1' })
 
-function ses_sendemail (emailAddrs) {
+function ses_sendemail (emailAddr) {
   let htmlEmail = `
-  This is the email content. here is a <a href="ashevillenc.gov">link</a>
+  This is the email content. Here is a <a href="ashevillenc.gov">link</a>
   `
   return new Promise(async (resolve, reject) => {
     try {
@@ -13,7 +13,7 @@ function ses_sendemail (emailAddrs) {
           CcAddresses: [
             /* more items */
           ],
-          ToAddresses: emailAddrs
+          ToAddresses: [emailAddr]
         },
         Message: {
           /* required */
