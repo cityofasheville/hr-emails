@@ -1,53 +1,52 @@
 const { SESClient, SendEmailCommand } = require('@aws-sdk/client-ses')
 const client = new SESClient({ region: 'us-east-1' })
 
-function ses_sendemail (emailAddr) {
+async function ses_sendemail (emailAddr,emp) {
   let htmlEmail = `
-  This is the email content. Here is a <a href="ashevillenc.gov">link</a>
+  ${emp.employee},<br>
+  It has been ${emp.type} days since you were hired. <br>
+  The City of Asheville HR Department would like your feedback! 
+  Here is a <a href="ashevillenc.gov">link</a> to a questionnaire.
   `
-  return new Promise(async (resolve, reject) => {
-    try {
-      const params = {
-        Destination: {
+  try {
+    const params = {
+      Destination: {
+        /* required */
+        CcAddresses: [
+          /* more items */
+        ],
+        ToAddresses: [emailAddr]
+      },
+      Message: {
+        /* required */
+        Body: {
           /* required */
-          CcAddresses: [
-            /* more items */
-          ],
-          ToAddresses: [emailAddr]
-        },
-        Message: {
-          /* required */
-          Body: {
-            /* required */
-            Html: {
-              Charset: 'UTF-8',
-              Data: htmlEmail
-            },
-            Text: {
-              Charset: 'UTF-8',
-              Data: htmlEmail
-            }
-          },
-          Subject: {
+          Html: {
             Charset: 'UTF-8',
-            Data: 'City of Asheville Employee Survey'
+            Data: htmlEmail
+          },
+          Text: {
+            Charset: 'UTF-8',
+            Data: htmlEmail
           }
         },
-        Source: 'asheville_notifications@ashevillenc.gov', // SENDER_ADDRESS
-        ReplyToAddresses: [
-          'asheville_notifications@ashevillenc.gov'
-        ]
-      }
-
-      client.send(new SendEmailCommand(params), (err) => {
-        if (err) {
-          reject(err)
-        } else {
-          resolve('Success - Message ID:' + MessageID)
+        Subject: {
+          Charset: 'UTF-8',
+          Data: 'City of Asheville Employee Survey'
         }
-      })
-    } catch (err) { reject(err) }
-  })
+      },
+      Source: 'asheville_notifications@ashevillenc.gov', // SENDER_ADDRESS
+      ReplyToAddresses: [
+        'asheville_notifications@ashevillenc.gov'
+      ]
+    }
+
+    const data = await client.send(new SendEmailCommand(params))
+    return('Success - Message ID:' + data.MessageId)
+
+  } catch (err) { 
+    console.log(err) 
+  }
 };
 
 module.exports = ses_sendemail

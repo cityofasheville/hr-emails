@@ -1,16 +1,20 @@
 ## Send Email to staff inviting them to fill out survey
 
 Checks nightly for staff who are 7 days or 100 days after hire date.
+Sends email with link to questionnare.
+
+Can also be run with a parameter for the date:
+
+    {
+        "date_to_run": "2022-03-07"
+    }
+
+This will find staff 7 and 100 days before March 7, 2022
 
 
-Questions:
-- If it doesn't successfully run, what happens?
-    a) ignore^M^M^M^M^M^M
-    a) CloudWatch alarms - manual rerun
-    b) store successes somewhere and rerun tomorrow any since last good run
-        last-good-run timestamp
-        -----------------------
-        2022-02-11 12:23:07
+- If it doesn't successfully run, a CloudWatch alarm is sent for manual rerun.
 
-        select where startdate + 7 between last-good-run and today
 
+
+
+Status: test emails all sent to me

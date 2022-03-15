@@ -2,7 +2,7 @@ rm deploy.zip 2> /dev/null
 
 # #For Windows, use 7z
 # #7z a -r -tzip deploy.zip email.pug node_modules/*
-zip -rq deploy.zip *.js email.pug node_modules/*
+zip -rq deploy.zip *.js node_modules/*
 
 aws lambda delete-function --function-name hr-emails 2> /dev/null
 
@@ -17,10 +17,6 @@ host= \
 database=, \
 user=, \
 password=, \
-\
-EMAIL_RECIPIENT_JSON='[\"name1@ashevillenc.gov\",\"name2@ashevillenc.gov\"]', \
-\
-EMAIL_SENDER=asheville_notifications@ashevillenc.gov \
 }" \
 --vpc-config SubnetIds=subnet-id,subnet-id2,SecurityGroupIds=sg-id \
 --handler index.handler --runtime nodejs14.x
