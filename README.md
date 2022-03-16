@@ -14,7 +14,7 @@ This will find staff 7 and 100 days before March 7, 2022
 
 - If it doesn't successfully run, a CloudWatch alarm is sent for manual rerun.
 
-
+Additional digest email sent to HR each day if staff emails are sent.
 
 
 Status: test emails all sent to me
